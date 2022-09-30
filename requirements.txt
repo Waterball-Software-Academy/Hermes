@@ -1,0 +1,5 @@
+lotify~=2.3.4
+Flask~=2.2.2
+gspread~=5.5.0
+python-dotenv~=0.21.0
+nextcord~=2.2.0
