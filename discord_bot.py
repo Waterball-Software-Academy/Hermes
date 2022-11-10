@@ -24,7 +24,7 @@ class Subscriptions(nextcord.ui.View):
 @bot.slash_command(description="選擇要接收通知的平台")
 async def subscribe(interaction: nextcord.Interaction):
     view = Subscriptions()
-    await interaction.response.send_message('請選擇下方任一平台訂閱通知', view=view)
+    await interaction.response.send_message('請選擇下方任一平台訂閱通知', view=view, ephemeral=True)
     await view.wait()
 
 

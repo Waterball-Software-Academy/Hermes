@@ -1,6 +1,7 @@
 from multiprocessing import Pool
 
 from flask import Flask, request, render_template, Response
+from flask_cors import CORS
 
 import access_token_repository
 import properties
@@ -8,6 +9,8 @@ from access_token_repository import upsert
 from lotify_client import get_lotify_client
 
 app = Flask(__name__)
+# enable CORS
+CORS(app, resources={r'/': {'origins': ''}})
 lotify_client = get_lotify_client()
 
 
@@ -30,8 +33,15 @@ def notify():
     request_data = request.get_json()
     message = request_data['message']
     with Pool(5) as p:
+        success = 0
+        fail = 0
         for token in access_token_repository.find_all_tokens():
-            p.starmap(lotify_client.send_message, [(token, message)])
+            try:
+                p.starmap(lotify_client.send_message, [(token, message)])
+                success = success + 1
+            except:
+                fail = fail + 1
+            print(f'success {success}\nfail {fail}\n')
     return Response(response="success", status=201)
 
 
