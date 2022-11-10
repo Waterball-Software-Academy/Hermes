@@ -1,3 +1,4 @@
+import os
 from multiprocessing import Pool
 
 from flask import Flask, request, render_template, Response
@@ -8,7 +9,8 @@ import properties
 from access_token_repository import upsert
 from lotify_client import get_lotify_client
 
-app = Flask(__name__)
+template_dir = os.path.abspath('Templates')
+app = Flask(__name__, template_folder=template_dir)
 # enable CORS
 CORS(app, resources={r'/': {'origins': ''}})
 lotify_client = get_lotify_client()
